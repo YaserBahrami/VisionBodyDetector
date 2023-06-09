@@ -428,50 +428,26 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         var detectedHandPoints: [VNRecognizedPoint] = []
         
-        let handler = VNImageRequestHandler(cvPixelBuffer: image, orientation: .up, options: [:])
+        let handler = VNImageRequestHandler(cvPixelBuffer: image, orientation: .left, options: [:])
         do {
+            
             try handler.perform([handPoseRequest])
             guard let results = handPoseRequest.results?.prefix(2), !results.isEmpty else {
                 return
             }
             
-            try results.forEach { observation in
-                
-//
-//                let thumbPoints = try observation.recognizedPoints(.thumb)
-//                let indexFingerPoints = try observation.recognizedPoints(.indexFinger)
-//                let middleFingerPoints = try observation.recognizedPoints(.middleFinger)
-//                let ringFingerPoints = try observation.recognizedPoints(.ringFinger)
-//                let littleFingerPoints = try observation.recognizedPoints(.littleFinger)
-//                let wristPoints = try observation.recognizedPoints(.all)
-//
-                
-                
-                let fingers = try observation.recognizedPoints(.all)
-//                detectedHandPoints.append(contentsOf: fingers.values)
-
-                if let thumbTipPoint = fingers[.thumbTip] {
-                    detectedHandPoints.append(thumbTipPoint)
-                }
-                if let indexTipPoint = fingers[.indexTip] {
-                    detectedHandPoints.append(indexTipPoint)
-                }
-                if let middleTipPoint = fingers[.middleTip] {
-                    detectedHandPoints.append(middleTipPoint)
-                }
-                if let ringTipPoint = fingers[.ringTip]{
-                    detectedHandPoints.append(ringTipPoint)
-                }
-                if let littleTipPoint = fingers[.littleTip]{
-                    detectedHandPoints.append(littleTipPoint)
-                }
-            }
             
+            guard let observation = handPoseRequest.results?.first else {
+                return
+            }
+        
+            let fingers = try observation.recognizedPoints(.all)
+            detectedHandPoints.append(contentsOf: fingers.values)
             
             // Convert points from Vision coordinates to AVFoundation coordinates.
             
             fingerTips = detectedHandPoints.filter {
-                $0.confidence > 0
+                $0.confidence > 0.9
             }.map {
                 CGPoint(x: $0.location.x, y: 1 - $0.location.y)
             }
