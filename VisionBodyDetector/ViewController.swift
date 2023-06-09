@@ -30,6 +30,13 @@ class ViewController: UIViewController {
     private let multiCamSessionQueue = DispatchQueue(label: "session queue")
     private let multiCamSessionOutputQueue = DispatchQueue(label: "session output queue")
     
+    private let handPoseRequest: VNDetectHumanHandPoseRequest = {
+      let request = VNDetectHumanHandPoseRequest()
+      request.maximumHandCount = 2
+      return request
+    }()
+    
+    var pointsProcessorHandler: (([CGPoint]) -> Void)?
 
     
     override func viewDidLoad() {
@@ -405,14 +412,80 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         if output == backVideoDataOutput {
-            
+            detectHandPose(frame)
             
         } else if output == frontVideoDataOutput {
             detectFace(frame)
         }
     }
     
-    
+    private func detectHandPose(_ image: CVPixelBuffer) {
+        var fingerTips: [CGPoint] = []
+        defer {
+            DispatchQueue.main.sync {
+                self.processFingerPoints(fingerTips)
+            }
+        }
+        var detectedHandPoints: [VNRecognizedPoint] = []
+        
+        let handler = VNImageRequestHandler(cvPixelBuffer: image, orientation: .up, options: [:])
+        do {
+            try handler.perform([handPoseRequest])
+            guard let results = handPoseRequest.results?.prefix(2), !results.isEmpty else {
+                return
+            }
+            
+            try results.forEach { observation in
+                
+//
+//                let thumbPoints = try observation.recognizedPoints(.thumb)
+//                let indexFingerPoints = try observation.recognizedPoints(.indexFinger)
+//                let middleFingerPoints = try observation.recognizedPoints(.middleFinger)
+//                let ringFingerPoints = try observation.recognizedPoints(.ringFinger)
+//                let littleFingerPoints = try observation.recognizedPoints(.littleFinger)
+//                let wristPoints = try observation.recognizedPoints(.all)
+//
+                
+                
+                let fingers = try observation.recognizedPoints(.all)
+//                detectedHandPoints.append(contentsOf: fingers.values)
+
+                if let thumbTipPoint = fingers[.thumbTip] {
+                    detectedHandPoints.append(thumbTipPoint)
+                }
+                if let indexTipPoint = fingers[.indexTip] {
+                    detectedHandPoints.append(indexTipPoint)
+                }
+                if let middleTipPoint = fingers[.middleTip] {
+                    detectedHandPoints.append(middleTipPoint)
+                }
+                if let ringTipPoint = fingers[.ringTip]{
+                    detectedHandPoints.append(ringTipPoint)
+                }
+                if let littleTipPoint = fingers[.littleTip]{
+                    detectedHandPoints.append(littleTipPoint)
+                }
+            }
+            
+            
+            // Convert points from Vision coordinates to AVFoundation coordinates.
+            
+            fingerTips = detectedHandPoints.filter {
+                $0.confidence > 0
+            }.map {
+                CGPoint(x: $0.location.x, y: 1 - $0.location.y)
+            }
+            
+        } catch {
+            //TODO: handle catch...
+            multiCamSession.stopRunning()
+            let error = AppError.visionError(error: error)
+            DispatchQueue.main.async {
+                error.displayInViewController(self)
+            }
+        }
+        
+    }
     
     func processFingerPoints(_ fingerTips: [CGPoint]) {
         let convertedPoints = fingerTips.map {
@@ -420,7 +493,8 @@ extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         }
         
         print(convertedPoints)
-        pointsProcessorHandler?(convertedPoints)
+        backCameraPreview.showPoints(convertedPoints, color: .red)
+//        pointsProcessorHandler?(convertedPoints)
     }
     
     private func detectFace(_ image: CVPixelBuffer) {
