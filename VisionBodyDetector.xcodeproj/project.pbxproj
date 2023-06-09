@@ -13,6 +13,8 @@
 		437935162A30748900D1B908 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 437935142A30748900D1B908 /* Main.storyboard */; };
 		437935182A30748C00D1B908 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 437935172A30748C00D1B908 /* Assets.xcassets */; };
 		4379351B2A30748C00D1B908 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 437935192A30748C00D1B908 /* LaunchScreen.storyboard */; };
+		437935242A30761A00D1B908 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 437935232A30761A00D1B908 /* SnapKit */; };
+		437935262A30774A00D1B908 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 437935252A30774A00D1B908 /* CameraPreviewView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,7 @@
 		437935172A30748C00D1B908 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4379351A2A30748C00D1B908 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4379351C2A30748C00D1B908 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		437935252A30774A00D1B908 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +34,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				437935242A30761A00D1B908 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +63,7 @@
 				4379350E2A30748900D1B908 /* AppDelegate.swift */,
 				437935102A30748900D1B908 /* SceneDelegate.swift */,
 				437935122A30748900D1B908 /* ViewController.swift */,
+				437935252A30774A00D1B908 /* CameraPreviewView.swift */,
 				437935142A30748900D1B908 /* Main.storyboard */,
 				437935172A30748C00D1B908 /* Assets.xcassets */,
 				437935192A30748C00D1B908 /* LaunchScreen.storyboard */,
@@ -83,6 +88,9 @@
 			dependencies = (
 			);
 			name = VisionBodyDetector;
+			packageProductDependencies = (
+				437935232A30761A00D1B908 /* SnapKit */,
+			);
 			productName = VisionBodyDetector;
 			productReference = 4379350B2A30748900D1B908 /* VisionBodyDetector.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +119,9 @@
 				Base,
 			);
 			mainGroup = 437935022A30748900D1B908;
+			packageReferences = (
+				437935222A30761A00D1B908 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 4379350C2A30748900D1B908 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,6 +149,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				437935262A30774A00D1B908 /* CameraPreviewView.swift in Sources */,
 				437935132A30748900D1B908 /* ViewController.swift in Sources */,
 				4379350F2A30748900D1B908 /* AppDelegate.swift in Sources */,
 				437935112A30748900D1B908 /* SceneDelegate.swift in Sources */,
@@ -290,11 +302,12 @@
 				DEVELOPMENT_TEAM = 83P5KX79QJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VisionBodyDetector/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "VisionBodyDetector uses the camera to detect face and body.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -318,11 +331,12 @@
 				DEVELOPMENT_TEAM = 83P5KX79QJ;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = VisionBodyDetector/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "VisionBodyDetector uses the camera to detect face and body.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -358,6 +372,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		437935222A30761A00D1B908 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		437935232A30761A00D1B908 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 437935222A30761A00D1B908 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 437935032A30748900D1B908 /* Project object */;
 }
